@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Courses</h1>
+
+<table  class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @courses.each do |course| %>
+      <tr>
+        <td><%= course.title %></td>
+        <td><%= link_to  course , class: "btn btn-info" do %>
+  <i class="fa fa-info-circle"></i> show
+<% end %>
+        <% if can? :update, course %>
+        <%= link_to  edit_course_path(course), class: "btn btn-warning" do %>
+        <i class="fa fa-edit"></i> Edit
+      <% end %>
+        <%= link_to course, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" do %>
+  <i class="fa fa-times"></i> Delete
+<% end %>
+        </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<% if can? :create, Course %>
+<%= link_to  new_course_path, class: "btn btn-primary" do %>
+  <i class="fa fa-plus"></i> New Course
+<% end %>
+<% end %>
+

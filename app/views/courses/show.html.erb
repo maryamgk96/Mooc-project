@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+<div class="card ">
+<div class="card-header bg-info text-white">
+<h2><%= @course.title %> </h2>
+</div>
+ <div class="card-body">
+<div class="card-text">
+<div class="container">
+<h1>Course lectures:</h1>
+<ul class="list-group">
+<% @course.lectures.each do |lecture| %>
+  <li class="list-group-item list-group-item-action"><%= link_to lecture.title, lecture %></li>
+<% end %>
+</ul>
+</div>
+<br/>
+<% if can? :update, @course %>
+<%= link_to  edit_course_path(@course) , class: "btn btn-warning" do %>
+        <i class="fa fa-edit"></i> Edit Course
+      <% end %>   |
+<%= link_to @course, method: :delete, data: { confirm: 'Are you sure?' } ,class: "btn btn-danger" do %>
+  <i class="fa fa-times"></i> Delete Course
+<% end %>  |
+<%= link_to new_lecture_path , class: "btn btn-primary" do %>
+  <i class="fa fa-plus"></i> New Lecture
+<% end %> 
+<% end  %>
+</div>
+</div>
+</div>
+<%= link_to 'Back', courses_path %>

@@ -1,0 +1,50 @@
+<p id="notice" class="alert alert-error"><%= notice %></p>
+
+<h1>Lectures</h1>
+
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Title</th>    
+      <th>Content</th>
+      <th>Attachment</th>
+      <th colspan="3">Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @lectures.each do |lecture| %>
+      <tr>
+        <td><%= lecture.title %></td>        
+        <td><%= lecture.content.html_safe %></td>
+        <td>
+        <% if lecture.attachment? %>
+        <% if File.extname(lecture.attachment.to_s)=='.jpeg'|| File.extname(lecture.attachment.to_s)=='.jpg'%>
+        <%= image_tag(lecture.attachment.url, alt: 'Image',:size => "260x180") %>
+        <% else %>
+        <%= link_to lecture.attachment_url , class: "btn btn-success"  do %>
+        <i class="fa fa-cloud-download"></i> Download Attachment
+      <% end %>
+        <% end %>
+        <% end %>
+        </td>
+        <td><%= link_to lecture , class: "btn btn-info"  do %>
+  <i class="fa fa-info-circle"></i> show
+
+<%end%>
+        <% if can? :update, lecture %>
+        <%= link_to  edit_lecture_path(lecture) , class: "btn btn-warning" do %>
+        <i class="fa fa-edit"></i> Edit
+      <% end %>
+       <%= link_to lecture, method: :delete, data: { confirm: 'Are you sure?' } , class: "btn btn-danger" do %>
+  <i class="fa fa-times"></i> Delete
+<% end %></td>
+      <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+

@@ -1,0 +1,2 @@
+$('#unlike-<%= @lecture.id %>').replaceWith('<%= escape_javascript render 'like_link', lecture: @lecture %>');
+$('#like-count').html("<h4><%=@lecture.get_upvotes.size%> Likes</h4>");

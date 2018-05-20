@@ -1,0 +1,47 @@
+
+<%= form_with(model: lecture, local: true, html: {class: 'form-horizontal'}) do |form| %>
+  <% if lecture.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(lecture.errors.count, "error") %> prohibited this lecture from being saved:</h2>
+
+      <ul>
+      <% lecture.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<div class="field form-group">
+    <%= form.label :title , class: 'col-sm-2 control-label' %>
+     <div class="col-sm-10">
+    <%= form.text_field :title, id: :lecture_title , class: 'form-control' %>
+    </div>
+  </div>
+  <div class="field form-group" >
+    <%= form.label :content  , class: 'col-sm-2 control-label'%>
+     <div class="col-sm-10" data-no-turbolink>
+    <%= form.text_area :content, :class => 'ckeditor',  id: :lecture_content%>
+    </div>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :attachment , class: 'col-sm-2 control-label' %>
+     <div class="col-sm-10">
+    <%= form.file_field :attachment, id: :lecture_attachment , class: 'form-control' %>
+    </div>
+  </div>
+<div class="field form-group">
+    <%= form.label :course_id  , class: 'col-sm-2 control-label' %>
+     <div class="col-sm-10">
+     <%= form.select :course_id, options_for_select(Course.where(user_id: current_user.id).map{|s|[s.title, s.id]}) , class: 'form-control' %>
+     </div>
+  </div>
+  <div class="actions form-group">
+  <div class="col-sm-offset-2 col-sm-10">
+   <%= form.submit 'Submit', :class=> 'btn btn-primary'%>
+    </div>
+  </div>
+<% end %>
+
+<%= javascript_include_tag  "//cdn.ckeditor.com/4.6.1/basic/ckeditor.js"%>

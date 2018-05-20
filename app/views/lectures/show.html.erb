@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+<div class="card ">
+<div class="card-header bg-info text-white">
+<h2><%= @lecture.title %> </h2>
+</div>
+ <div class="card-body">
+<div class="card-text">
+  Content: <%= @lecture.content.html_safe %>
+</div>
+<div>
+<% if File.extname(@lecture.attachment.to_s)=='.jpeg'|| File.extname(@lecture.attachment.to_s)=='.jpg'%>
+        <%= image_tag(@lecture.attachment.url, alt: 'Image',:size => "260x180") if @lecture.attachment? %>
+        <% else %>
+        <%= link_to "Download Attachment", @lecture.attachment_url if @lecture.attachment? %>
+        <% end %>
+
+  </div>
+        
+        <% if user_signed_in? %>
+ <% if can? :update, @lecture %>
+<%= link_to    edit_lecture_path(@lecture) , class: "btn btn-warning" do %>
+        <i class="fa fa-edit"></i> Edit
+      <% end %>  | 
+<%= link_to  @lecture, method: :delete, data: { confirm: 'Are you sure?' } , class: "btn btn-danger" do %>
+  <i class="fa fa-times"></i> Delete
+<% end %>  |
+<%end%>
+
+<%= link_to_if( ! @lecture.spam?(current_user), "Mark As Spam",  spam_lecture_path(@lecture)) {  "marked as a spam"} %>
+
+<% if current_user.voted_as_when_voted_for @lecture  %>
+
+  <%= render 'unlike_link', lecture: @lecture %>
+<% else %> 
+
+  <%= render 'like_link', lecture: @lecture %>
+<% end %>
+<% end %>
+<div id="like-count"><h4><%= @lecture.get_upvotes.size %> Likes</h4></div>
+<%= render partial: "comments/template", locals: {commentable: @lecture, new_comment: @comment} %>  
+</div>
+</div>
+
+<%= link_to 'Back', :back %>
