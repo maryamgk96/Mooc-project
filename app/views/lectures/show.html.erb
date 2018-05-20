@@ -4,6 +4,9 @@
 <h2><%= @lecture.title %> </h2>
 </div>
  <div class="card-body">
+ <div class="card-text">
+  Course: <%= link_to @lecture.course.title, @lecture.course %>
+</div>
 <div class="card-text">
   Content: <%= @lecture.content.html_safe %>
 </div>
